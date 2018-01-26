@@ -1,0 +1,24 @@
+<form [formGroup]="configForm" novalidate>
+  <div formGroupName="api"> 
+    <label >
+      PORT: 
+      <input type="number" formControlName="port">
+    </label><br>
+    <label>
+      Secret
+      <input type="text" formControlName="secret">
+    </label>
+    <label>
+      Users:
+      <input type="text" formControlName="users"><br>
+    </label>
+    <!-- <div formArrayName="users" class="well well-lg">
+      <div *ngFor="let user of users; let i=index" [formGroupName]="i" >
+        <input type="text">
+      </div>
+    </div> -->
+  </div>
+</form>
+
+<pre>Form value: {{ configForm.value | json }}</pre><br>
+<pre>Form status: {{ configForm.status | json }}</pre>
