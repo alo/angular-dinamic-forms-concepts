@@ -1,6 +1,12 @@
-<!-- <pre>{{configForm | json}}</pre> -->
-
-<form [formGroup]="configForm"
+<form [formGroup]="configForm">
+  <div formGroupName="api">
+    <div *ngFor="let prop of props">
+      <label>{{ prop.key }}:</label>
+      <input [type]="prop.type" [formControlName]="prop.key">
+    </div>
+  </div>
+</form>
+<!-- <form [formGroup]="configForm"
       novalidate>
   <div formGroupName="api">
     <label>
@@ -26,7 +32,6 @@
     USER/S
     <div formArrayName="users" class="well well-lg">
       <div *ngFor="let user of users.controls; let i=index" [formGroupName]="i">
-        <!-- <h4>Users #{{i + 1}}</h4> -->
         <label>
           User #{{i + 1}}:
           <input class="form-control" formControlName="value">
@@ -37,7 +42,7 @@
       <button (click)="addUser()" type="button">Add User</button>
     </div> 
   </div>
-</form>
+</form> -->
 
 <hr>
 <pre>Form value: {{ configForm.value | json }}</pre>

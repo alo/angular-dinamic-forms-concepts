@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms/src/model';
 export class AppComponent {
 
   configForm: FormGroup;
+  props = [];
 
   api = {
     'required': ['port'],
@@ -34,15 +35,38 @@ export class AppComponent {
   }
 
   createForm() {
-    this.configForm = this.fb.group({
-      api: this.fb.group({
-        port: 4200,
-        users: this.fb.array([]),
-        secret: 'secret',
-        token_expiration_time: '400',
-        log_display_level: 'combined'
-      })
+
+
+    // this.configForm = this.fb.group({
+    //   api: this.fb.group({
+    //     // port: 4200,
+    //     users: this.fb.array([]),
+    //     secret: 'secret',
+    //     token_expiration_time: '400',
+    //     log_display_level: 'combined'
+    //   })
+    // });
+    const formDataObject = {};
+
+    console.log(this.configForm);
+    Object.keys(this.api.properties).forEach( key => {
+      // console.log(key);
+      if (this.api.properties[key].type === 'string' ) {
+        // console.log('String found', key);
+        formDataObject[key] = new FormControl('');
+        this.props.push({
+          key: key,
+          label: formDataObject[key].label,
+          type: 'text'
+        });
+      }
     });
+    this.configForm = this.fb.group({
+      api: this.fb.group(formDataObject)
+    });
+    // this.configForm = this.fb.group(formDataObject);
+    console.log(this.configForm);
+
   }
 
   get users() {
