@@ -1,24 +1,45 @@
-<form [formGroup]="configForm" novalidate>
-  <div formGroupName="api"> 
-    <label >
-      PORT: 
-      <input type="number" formControlName="port">
-    </label><br>
+<!-- <pre>{{configForm | json}}</pre> -->
+
+<form [formGroup]="configForm"
+      novalidate>
+  <div formGroupName="api">
     <label>
-      Secret
+      PORT:
+      <input type="number" formControlName="port">
+    </label> 
+    <br>
+    <label>
+      Secret: 
       <input type="text" formControlName="secret">
     </label>
+    <br>
     <label>
-      Users:
-      <input type="text" formControlName="users"><br>
+      Token expiration time: 
+      <input type="number" formControlName="token_expiration_time">
     </label>
-    <!-- <div formArrayName="users" class="well well-lg">
-      <div *ngFor="let user of users; let i=index" [formGroupName]="i" >
-        <input type="text">
+    <br>
+    <label>
+      log_display_level: 
+      <input type="text" formControlName="log_display_level">
+    </label>
+    <br>
+    USER/S
+    <div formArrayName="users" class="well well-lg">
+      <div *ngFor="let user of users.controls; let i=index" [formGroupName]="i">
+        <!-- <h4>Users #{{i + 1}}</h4> -->
+        <label>
+          User #{{i + 1}}:
+          <input class="form-control" formControlName="value">
+        </label>
+        
+        <br>
       </div>
-    </div> -->
+      <button (click)="addUser()" type="button">Add User</button>
+    </div> 
   </div>
 </form>
 
-<pre>Form value: {{ configForm.value | json }}</pre><br>
+<hr>
+<pre>Form value: {{ configForm.value | json }}</pre>
+<br>
 <pre>Form status: {{ configForm.status | json }}</pre>

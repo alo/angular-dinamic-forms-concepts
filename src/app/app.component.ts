@@ -17,14 +17,14 @@ export class AppComponent {
       'port': { 'type': ['number'] },
       'users': { 'type': 'array' },
       'secret': { 'type': 'string' },
-      'limite_req': { 'type': 'string' },
+      // 'limite_req': { 'type': 'string' },
       'token_expiration_time': { 'type': 'number' },
       'log_display_level': {
         'type': 'string',
-        'pattern': '(combined|common|dev|short|tiny)'
+        // 'pattern': '(combined|common|dev|short|tiny)'
       },
-      'chainsFieldsResponse': { 'type': 'array' },
-      'processFieldsResponse': { 'type': 'array' }
+      // 'chainsFieldsResponse': { 'type': 'array' },
+      // 'processFieldsResponse': { 'type': 'array' }
     }
   };
 
@@ -37,32 +37,21 @@ export class AppComponent {
     this.configForm = this.fb.group({
       api: this.fb.group({
         port: 4200,
-        users: 'listado de usuarios',
-        // users: this.fb.array([]),
-        secret: 'secret'
+        users: this.fb.array([]),
+        secret: 'secret',
+        token_expiration_time: '400',
+        log_display_level: 'combined'
       })
     });
   }
 
-  get control() {
-    return this.configForm.get('users') as FormArray;
+  get users() {
+    return this.configForm.get('api.users') as FormArray;
   }
 
   addUser(user) {
-    this.control.push(new FormControl(user));
-  }
-
-  removeUser(index: number) {
-    this.control.removeAt(index);
-  }
-
-  selectUser(user) {
-    const index = this.control.value.indexOf(user);
-    if (!!~index) {
-      this.removeUser(index);
-    } else {
-      this.addUser(user);
-    }
+    // this.control.push(new FormControl(user));
+    this.users.push(this.fb.group({value: ''}) );
   }
 
 
