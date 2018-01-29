@@ -11,10 +11,10 @@
           {{ prop.key }}:
         </label>
         <div [formArrayName]="prop.key" class="well well-lg">
-          <div *ngFor="let user of configForm.controls.api.controls[prop.key].controls; let i=index" [formGroupName]="i">
+          <div *ngFor="let user of configForm.controls.api.controls[prop.key].controls; let i=index">
             <label>
               {{ prop.key }} #{{i + 1}}:
-              <input class="form-control" formControlName="value">
+              <input class="form-control" [formControlName]="i">
             </label>
           </div>
           <button (click)="addControl(prop.key)" type="button">Add {{ prop.key }}</button>

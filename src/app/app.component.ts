@@ -50,9 +50,7 @@ export class AppComponent {
 
     console.log(this.configForm);
     Object.keys(this.api.properties).forEach( key => {
-      // console.log(key);
       if (this.api.properties[key].type === 'string' ) {
-        // console.log('String found', key);
         formDataObject[key] = new FormControl('');
         this.props.push({
           key: key,
@@ -71,18 +69,12 @@ export class AppComponent {
     this.configForm = this.fb.group({
       api: this.fb.group(formDataObject)
     });
-    // this.configForm = this.fb.group(formDataObject);
-    console.log(this.configForm);
 
   }
 
-  /* get users() {
-    return this.configForm.get('api.users') as FormArray;
-  } */
-
   addControl(controlName) {
-    // this.control.push(new FormControl(user));
-    this.configForm.controls.api.controls[controlName].push(this.fb.group({value: ''}));
+    const arrayControl = this.configForm.get(`api.${controlName}`) as FormArray;
+    arrayControl.push(this.fb.control(''));
   }
 
 
