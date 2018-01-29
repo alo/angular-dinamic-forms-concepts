@@ -1,8 +1,25 @@
 <form [formGroup]="configForm">
   <div formGroupName="api">
     <div *ngFor="let prop of props">
-      <label>{{ prop.key }}:</label>
-      <input [type]="prop.type" [formControlName]="prop.key">
+      <ng-container *ngIf="prop.type === 'text'">
+        <label>{{ prop.key }}:</label>
+        <input [type]="prop.type" [formControlName]="prop.key">
+      </ng-container>
+
+      <ng-container *ngIf="prop.type === 'array'">
+        <label>
+          {{ prop.key }}:
+        </label>
+        <div [formArrayName]="prop.key" class="well well-lg">
+          <div *ngFor="let user of configForm.controls.api.controls[prop.key].controls; let i=index" [formGroupName]="i">
+            <label>
+              {{ prop.key }} #{{i + 1}}:
+              <input class="form-control" formControlName="value">
+            </label>
+          </div>
+          <button (click)="addControl(prop.key)" type="button">Add {{ prop.key }}</button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </form>
