@@ -59,6 +59,13 @@ export class AppComponent {
           label: formDataObject[key].label,
           type: 'text'
         });
+      } else if (this.api.properties[key].type === 'array') {
+        formDataObject[key] = new FormArray([]);
+        this.props.push({
+          key: key,
+          label: formDataObject[key].label,
+          type: 'array'
+        });
       }
     });
     this.configForm = this.fb.group({
@@ -69,13 +76,13 @@ export class AppComponent {
 
   }
 
-  get users() {
+  /* get users() {
     return this.configForm.get('api.users') as FormArray;
-  }
+  } */
 
-  addUser(user) {
+  addControl(controlName) {
     // this.control.push(new FormControl(user));
-    this.users.push(this.fb.group({value: ''}) );
+    this.configForm.controls.api.controls[controlName].push(this.fb.group({value: ''}));
   }
 
 
