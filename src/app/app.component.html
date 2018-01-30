@@ -1,7 +1,7 @@
 <form [formGroup]="configForm">
   <app-custom-form-object
     [formParent]="configForm.controls.api"
-    [propParent]="api"
+    [propParent]="configProp.props"
     [groupName]="'api'">
   </app-custom-form-object>
 </form>

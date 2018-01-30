@@ -11,13 +11,14 @@ import { CustomFormObjectComponent } from './components/custom-form-object/custo
 export class AppComponent {
 
   configForm: FormGroup;
-  props = [];
+  configProp: any;
 
   api = {
     'required': ['port'],
     'properties': {
-      'port': { 'type': ['number', 'string'] },
+      'port': { 'type': ['string', 'number'] },
       'users': { 'type': 'array' },
+      'testArray': { 'type': ['string', 'array'] },
       'secret': { 'type': 'string' },
       // 'limite_req': { 'type': 'string' },
       'token_expiration_time': { 'type': 'number' },
@@ -32,6 +33,7 @@ export class AppComponent {
           'test': {'type': 'string'},
           'test2': {'type': 'string'},
           'test3': { 'type': 'array' },
+          'testarray': { 'type': ['array', 'string'] },
           'mongodb': {
             'type': 'object',
             'required': ['host', 'database'],
@@ -55,8 +57,9 @@ export class AppComponent {
   }
 
   createForm() {
+    this.configProp = CustomFormObjectComponent.buildProp('api', this.api);
     this.configForm = this.fb.group({
-      api: CustomFormObjectComponent.buildForm(this.api)
+      api: CustomFormObjectComponent.buildForm(this.configProp)
     });
 
   }

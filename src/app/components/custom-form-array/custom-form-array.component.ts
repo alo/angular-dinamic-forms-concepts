@@ -20,6 +20,14 @@ export class CustomFormArrayComponent implements OnInit {
     return new FormArray([]);
   }
 
+  static buildProp(key: string, item: any) {
+    const _item: any = {};
+
+    Object.assign(_item, item);
+    _item.key = key;
+    return _item;
+  }
+
   ngOnInit() {
   }
 
