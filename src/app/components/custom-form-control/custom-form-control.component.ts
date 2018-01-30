@@ -17,6 +17,15 @@ export class CustomFormControlComponent implements OnInit {
     return new FormControl('');
   }
 
+  static buildProp(key: string, item: any) {
+    const _item: any = {};
+
+    Object.assign(_item, item);
+    _item.key = key;
+    _item.inputType = 'text';
+    return _item;
+  }
+
   ngOnInit() {
   }
 

@@ -1,7 +1,14 @@
 <strong>{{ groupName }}:</strong>
 <div [formGroup]="formParent">
-  <div *ngFor="let prop of props">
-    <app-custom-form-control *ngIf="prop.type === 'text'"
+  <div *ngFor="let prop of propParent; let i = index">
+
+    <label *ngIf="prop.typeOptions && prop.typeOptions.length">
+      <select (change)="changeControlType($event.target.value, i, prop.key)" [value]="prop.type">
+        <option *ngFor="let opt of prop.typeOptions" [value]="opt">{{opt}}</option>
+      </select>
+    </label>
+
+    <app-custom-form-control *ngIf="prop.type === 'string'"
       [formParent]="formParent"
       [prop]="prop">
     </app-custom-form-control>
@@ -13,15 +20,9 @@
 
     <app-custom-form-object *ngIf="prop.type === 'object'"
       [formParent]="formParent.controls[prop.key]"
-      [propParent]="prop"
+      [propParent]="prop.props"
       [groupName]="prop.key">
     </app-custom-form-object>
-
-    <label *ngIf="prop.type === 'select'">
-      <select (change)="test($event.target.value)">
-        <option *ngFor="let opt of prop.options" [value]="opt">{{opt}}</option>
-      </select>
-    </label>
 
   </div>
 </div>

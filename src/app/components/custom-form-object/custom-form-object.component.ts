@@ -14,8 +14,6 @@ export class CustomFormObjectComponent implements OnInit {
   @Input() propParent: any;
   @Input() groupName: string;
 
-  props = [];
-
   constructor(
     private fb: FormBuilder
   ) { }
@@ -24,54 +22,64 @@ export class CustomFormObjectComponent implements OnInit {
     const formDataObject = {};
 
     Object.keys(propParent.properties).forEach( key => {
-      if (propParent.properties[key].type === 'string' ) {
-        formDataObject[key] = CustomFormControlComponent.buildForm();
-      } else if (propParent.properties[key].type === 'array') {
-        formDataObject[key] = CustomFormArrayComponent.buildForm();
-      } else if (propParent.properties[key].type === 'object') {
-        formDataObject[key] = CustomFormObjectComponent.buildForm(propParent.properties[key]);
+      const _propertieForm = CustomFormObjectComponent.buildPropertieForm(key, propParent.properties[key]);
+      if (_propertieForm) {
+        formDataObject[key] = _propertieForm;
       }
     });
     return new FormGroup(formDataObject);
 
   }
 
-  ngOnInit() {
-    this.createForm();
-  }
-
-  createForm() {
-    Object.keys(this.propParent.properties).forEach( key => {
-      if (this.propParent.properties[key].type === 'string' ) {
-        this.props.push({
-          key: key,
-          label: this.propParent.properties[key].label,
-          type: 'text'
-        });
-      } else if (this.propParent.properties[key].type === 'array') {
-        this.props.push({
-          key: key,
-          label: this.propParent.properties[key].label,
-          type: 'array'
-        });
-      } else if (this.propParent.properties[key].type === 'object') {
-        this.propParent.properties[key].key = key;
-        this.props.push(this.propParent.properties[key]);
-      } else if ( Array.isArray((this.propParent.properties[key].type))) {
-        console.log(this.propParent.properties[key].type);
-        this.props.push({
-          key: key,
-          label: this.propParent.properties[key].label,
-          type: 'select',
-          options: this.propParent.properties[key].type
-        });
-      }
-
+  static buildProp(key: string, propParent: any) {
+    const props = [];
+    propParent.key = key;
+    Object.keys(propParent.properties).forEach( keyIndex => {
+      const _propertieProp = CustomFormObjectComponent.buildPropertieProp(keyIndex, propParent.properties[keyIndex]);
+      props.push(_propertieProp);
     });
+    propParent.props = props;
+    return propParent;
   }
 
-  test($event) {
-    console.log($event);
+  static buildPropertieForm(key: string, propertie: any) {
+    if (propertie.type === 'string' ) {
+      return CustomFormControlComponent.buildForm();
+    } else if (propertie.type === 'array') {
+      return CustomFormArrayComponent.buildForm();
+    } else if (propertie.type === 'object') {
+      return CustomFormObjectComponent.buildForm(propertie);
+    } else {
+      return null;
+    }
+  }
+
+  static buildPropertieProp(key: string, propertie: any) {
+    if (propertie.type === 'string' ) {
+      return CustomFormControlComponent.buildProp(key, propertie);
+    } else if (propertie.type === 'array') {
+      return CustomFormArrayComponent.buildProp(key, propertie);
+    } else if (propertie.type === 'object') {
+      return CustomFormObjectComponent.buildProp(key, propertie);
+    } else if ( Array.isArray((propertie.type))) {
+      propertie.typeOptions = propertie.type;
+      propertie.type = propertie.type[0];
+      const _propertieForm = CustomFormObjectComponent.buildPropertieForm(key, propertie);
+      return CustomFormObjectComponent.buildPropertieProp(key, propertie);
+    } else {
+      return {};
+    }
+  }
+
+  ngOnInit() {
+  }
+
+  changeControlType(value, index, key) {
+    const _prop = Object.assign({}, this.propParent[index]);
+    _prop.type = value;
+    this.formParent.removeControl(key);
+    this.propParent[index] = CustomFormObjectComponent.buildPropertieProp(key, _prop);
+    this.formParent.addControl(key, CustomFormObjectComponent.buildPropertieForm(key, _prop));
   }
 
 }
