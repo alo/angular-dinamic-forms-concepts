@@ -25,6 +25,7 @@ export class CustomFormArrayComponent implements OnInit {
 
     Object.assign(_item, item);
     _item.key = key;
+    _item.items = [];
     return _item;
   }
 
@@ -32,11 +33,13 @@ export class CustomFormArrayComponent implements OnInit {
   }
 
   addControl(controlName) {
+    this.prop.items.push(CustomFormControlComponent.buildProp(this.prop.items.length, {}));
     const arrayControl = this.formParent.get(controlName) as FormArray;
     arrayControl.push(CustomFormControlComponent.buildForm());
   }
 
   deleteControl(controlName, index) {
+    this.prop.items.pop();
     const arrayControl = this.formParent.get(controlName) as FormArray;
     arrayControl.removeAt(index);
   }

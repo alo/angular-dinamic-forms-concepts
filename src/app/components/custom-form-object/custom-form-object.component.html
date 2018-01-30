@@ -1,5 +1,5 @@
 <strong>{{ groupName }}:</strong>
-<div [formGroup]="formParent">
+<ng-container [formGroup]="formParent">
   <div *ngFor="let prop of propParent; let i = index">
 
     <label *ngIf="prop.typeOptions && prop.typeOptions.length">
@@ -25,4 +25,4 @@
     </app-custom-form-object>
 
   </div>
-</div>
+</ng-container>
