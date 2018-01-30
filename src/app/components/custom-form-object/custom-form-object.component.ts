@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { CustomFormArrayComponent } from '../custom-form-array/custom-form-array.component';
+import { CustomFormControlComponent } from '../custom-form-control/custom-form-control.component';
 
 @Component({
   selector: 'app-custom-form-object',
@@ -22,9 +24,9 @@ export class CustomFormObjectComponent implements OnInit {
 
     Object.keys(propParent.properties).forEach( key => {
       if (propParent.properties[key].type === 'string' ) {
-        formDataObject[key] = new FormControl('');
+        formDataObject[key] = CustomFormControlComponent.buildForm();
       } else if (propParent.properties[key].type === 'array') {
-        formDataObject[key] = new FormArray([]);
+        formDataObject[key] = CustomFormArrayComponent.buildForm();
       }
     });
     return new FormGroup(formDataObject);
@@ -51,11 +53,6 @@ export class CustomFormObjectComponent implements OnInit {
         });
       }
     });
-  }
-
-  addControl(controlName) {
-    const arrayControl = this.formParent.get(controlName) as FormArray;
-    arrayControl.push(this.fb.control(''));
   }
 
 }
