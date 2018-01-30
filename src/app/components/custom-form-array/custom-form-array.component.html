@@ -1,15 +1,19 @@
-<div [formGroup]="formParent">
+<ng-container [formGroup]="formParent">
   <label>
     {{ prop.key }}:
     <button (click)="addControl(prop.key)" type="button">Add {{ prop.key }}</button>
   </label>
   <div [formArrayName]="prop.key" class="well well-lg">
     <div *ngFor="let control of formParent.controls[prop.key].controls; let i=index">
-      <label>
+      <app-custom-form-control
+        [formParent]="formParent.controls[prop.key]"
+        [prop]="prop.items[i]">
+      </app-custom-form-control>
+      <!-- <label>
         {{ prop.key }} #{{i + 1}}:
         <input class="form-control" [formControlName]="i">
-        <button (click)="deleteControl(prop.key, i)" type="button">Delete</button>
-      </label>
+      </label> -->
+      <button (click)="deleteControl(prop.key, i)" type="button">Delete</button>
     </div>
   </div>
-</div>
+</ng-container>
