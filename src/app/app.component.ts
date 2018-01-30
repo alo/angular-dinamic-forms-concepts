@@ -34,6 +34,14 @@ export class AppComponent {
           'test2': {'type': 'string'},
           'test3': { 'type': 'array' },
           'testarray': { 'type': ['array', 'string'] },
+          'testObject': {
+            'type': ['string', 'object'],
+            'properties': {
+              'test': {'type': 'string'},
+              'test2': {'type': 'string'},
+              'test3': { 'type': 'array' }
+            }
+          },
           'mongodb': {
             'type': 'object',
             'required': ['host', 'database'],

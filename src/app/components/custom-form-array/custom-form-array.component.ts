@@ -36,4 +36,9 @@ export class CustomFormArrayComponent implements OnInit {
     arrayControl.push(CustomFormControlComponent.buildForm());
   }
 
+  deleteControl(controlName, index) {
+    const arrayControl = this.formParent.get(controlName) as FormArray;
+    arrayControl.removeAt(index);
+  }
+
 }
