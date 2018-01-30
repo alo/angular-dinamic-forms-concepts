@@ -57,8 +57,21 @@ export class CustomFormObjectComponent implements OnInit {
       } else if (this.propParent.properties[key].type === 'object') {
         this.propParent.properties[key].key = key;
         this.props.push(this.propParent.properties[key]);
+      } else if ( Array.isArray((this.propParent.properties[key].type))) {
+        console.log(this.propParent.properties[key].type);
+        this.props.push({
+          key: key,
+          label: this.propParent.properties[key].label,
+          type: 'select',
+          options: this.propParent.properties[key].type
+        });
       }
+
     });
+  }
+
+  test($event) {
+    console.log($event);
   }
 
 }

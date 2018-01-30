@@ -16,5 +16,12 @@
       [propParent]="prop"
       [groupName]="prop.key">
     </app-custom-form-object>
+
+    <label *ngIf="prop.type === 'select'">
+      <select (change)="test($event.target.value)">
+        <option *ngFor="let opt of prop.options" [value]="opt">{{opt}}</option>
+      </select>
+    </label>
+
   </div>
 </div>

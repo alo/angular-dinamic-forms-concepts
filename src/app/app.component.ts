@@ -16,7 +16,7 @@ export class AppComponent {
   api = {
     'required': ['port'],
     'properties': {
-      'port': { 'type': ['number'] },
+      'port': { 'type': ['number', 'string'] },
       'users': { 'type': 'array' },
       'secret': { 'type': 'string' },
       // 'limite_req': { 'type': 'string' },
