@@ -25,6 +25,25 @@ export class AppComponent {
         'type': 'string',
         // 'pattern': '(combined|common|dev|short|tiny)'
       },
+      'history': {
+        'type': 'object',
+        'properties': {
+          'disable': {'type': 'boolean'},
+          'test': {'type': 'string'},
+          'test2': {'type': 'string'},
+          'test3': { 'type': 'array' },
+          'mongodb': {
+            'type': 'object',
+            'required': ['host', 'database'],
+            'properties': {
+              'host': {'type': 'string'},
+              'port': {'type': 'number'},
+              'database': {'type': 'string'},
+              'test4': { 'type': 'array' }
+            }
+          }
+        }
+      }
       // 'chainsFieldsResponse': { 'type': 'array' },
       // 'processFieldsResponse': { 'type': 'array' }
     }

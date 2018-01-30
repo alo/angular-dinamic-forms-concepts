@@ -12,6 +12,7 @@ export class CustomFormObjectComponent implements OnInit {
 
   @Input() formParent: FormGroup;
   @Input() propParent: any;
+  @Input() groupName: string;
 
   props = [];
 
@@ -27,6 +28,8 @@ export class CustomFormObjectComponent implements OnInit {
         formDataObject[key] = CustomFormControlComponent.buildForm();
       } else if (propParent.properties[key].type === 'array') {
         formDataObject[key] = CustomFormArrayComponent.buildForm();
+      } else if (propParent.properties[key].type === 'object') {
+        formDataObject[key] = CustomFormObjectComponent.buildForm(propParent.properties[key]);
       }
     });
     return new FormGroup(formDataObject);
@@ -51,6 +54,9 @@ export class CustomFormObjectComponent implements OnInit {
           label: this.propParent.properties[key].label,
           type: 'array'
         });
+      } else if (this.propParent.properties[key].type === 'object') {
+        this.propParent.properties[key].key = key;
+        this.props.push(this.propParent.properties[key]);
       }
     });
   }

@@ -1,3 +1,4 @@
+<strong>{{ groupName }}:</strong>
 <div [formGroup]="formParent">
   <div *ngFor="let prop of props">
     <app-custom-form-control *ngIf="prop.type === 'text'"
@@ -9,5 +10,11 @@
       [formParent]="formParent"
       [prop]="prop">
     </app-custom-form-array>
+
+    <app-custom-form-object *ngIf="prop.type === 'object'"
+      [formParent]="formParent.controls[prop.key]"
+      [propParent]="prop"
+      [groupName]="prop.key">
+    </app-custom-form-object>
   </div>
 </div>
