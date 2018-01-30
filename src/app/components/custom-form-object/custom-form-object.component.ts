@@ -43,7 +43,7 @@ export class CustomFormObjectComponent implements OnInit {
   }
 
   static buildPropertieForm(key: string, propertie: any) {
-    if (propertie.type === 'string' ) {
+    if (propertie.type === 'string' || propertie.type === 'number') {
       return CustomFormControlComponent.buildForm();
     } else if (propertie.type === 'array') {
       return CustomFormArrayComponent.buildForm();
@@ -55,7 +55,7 @@ export class CustomFormObjectComponent implements OnInit {
   }
 
   static buildPropertieProp(key: string, propertie: any) {
-    if (propertie.type === 'string' ) {
+    if (propertie.type === 'string' || propertie.type === 'number') {
       return CustomFormControlComponent.buildProp(key, propertie);
     } else if (propertie.type === 'array') {
       return CustomFormArrayComponent.buildProp(key, propertie);

@@ -19,10 +19,14 @@ export class CustomFormControlComponent implements OnInit {
 
   static buildProp(key: string, item: any) {
     const _item: any = {};
+    let _inputType = 'text';
+    if (item.type === 'number') {
+      _inputType = 'number';
+    }
 
     Object.assign(_item, item);
     _item.key = key;
-    _item.inputType = 'text';
+    _item.inputType = _inputType;
     return _item;
   }
 
