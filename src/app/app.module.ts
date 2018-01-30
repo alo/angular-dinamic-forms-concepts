@@ -6,13 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CustomFormObjectComponent } from './components/custom-form-object/custom-form-object.component';
 import { CustomFormControlComponent } from './components/custom-form-control/custom-form-control.component';
+import { CustomFormArrayComponent } from './components/custom-form-array/custom-form-array.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CustomFormObjectComponent,
-    CustomFormControlComponent
+    CustomFormControlComponent,
+    CustomFormArrayComponent
   ],
   imports: [
     BrowserModule,
