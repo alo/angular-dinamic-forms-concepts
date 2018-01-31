@@ -8,7 +8,7 @@
       </select>
     </label>
 
-    <app-custom-form-control *ngIf="prop.type === 'string' || prop.type === 'number'"
+    <app-custom-form-control *ngIf="prop.type === 'string' || prop.type === 'number' || prop.type === 'boolean'"
       [formParent]="formParent"
       [prop]="prop">
     </app-custom-form-control>

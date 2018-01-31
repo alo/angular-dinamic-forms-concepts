@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { CustomFormArrayComponent } from '../custom-form-array/custom-form-array.component';
 import { CustomFormControlComponent } from '../custom-form-control/custom-form-control.component';
 
@@ -14,9 +14,7 @@ export class CustomFormObjectComponent implements OnInit {
   @Input() propParent: any;
   @Input() groupName: string;
 
-  constructor(
-    private fb: FormBuilder
-  ) { }
+  constructor() { }
 
   static buildForm(propParent: any) {
     const formDataObject = {};
@@ -43,7 +41,7 @@ export class CustomFormObjectComponent implements OnInit {
   }
 
   static buildPropertieForm(key: string, propertie: any) {
-    if (propertie.type === 'string' || propertie.type === 'number') {
+    if (propertie.type === 'string' || propertie.type === 'number' || propertie.type === 'boolean') {
       return CustomFormControlComponent.buildForm();
     } else if (propertie.type === 'array') {
       return CustomFormArrayComponent.buildForm();
@@ -55,7 +53,7 @@ export class CustomFormObjectComponent implements OnInit {
   }
 
   static buildPropertieProp(key: string, propertie: any) {
-    if (propertie.type === 'string' || propertie.type === 'number') {
+    if (propertie.type === 'string' || propertie.type === 'number' || propertie.type === 'boolean') {
       return CustomFormControlComponent.buildProp(key, propertie);
     } else if (propertie.type === 'array') {
       return CustomFormArrayComponent.buildProp(key, propertie);
