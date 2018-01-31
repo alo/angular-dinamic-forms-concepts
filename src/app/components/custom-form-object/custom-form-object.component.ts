@@ -71,6 +71,34 @@ export class CustomFormObjectComponent implements OnInit {
     }
   }
 
+  static patchForm(form: FormGroup, value: any, prop: any) {
+    form.patchValue(value);
+    Object.keys(value).forEach(key => {
+      if (Array.isArray(value[key])) {
+        for (const val of value[key]) {
+          CustomFormArrayComponent.addControl(key, prop[CustomFormObjectComponent.getPropIndex(prop, key)], form, val);
+        }
+        form.controls[key].patchValue(value[key]);
+      } else if (value[key] !== null && typeof value[key] === 'object') {
+        CustomFormObjectComponent.patchForm(
+          form.controls[key] as FormGroup,
+          value[key],
+          prop[CustomFormObjectComponent.getPropIndex(prop, key)].props
+        );
+      } else {
+        // form.controls[key].patchValue(value[key]);
+      }
+    });
+  }
+
+  static getPropIndex(prop, key) {
+    for (let i = 0; i < prop.length; i++) {
+      if (prop[i].key === key) {
+        return i;
+      }
+    }
+  }
+
   ngOnInit() {
   }
 

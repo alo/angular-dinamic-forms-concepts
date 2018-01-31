@@ -1,6 +1,6 @@
 <strong>{{ groupName }}:</strong>
 <ng-container [formGroup]="formParent">
-  <div *ngFor="let prop of propParent; let i = index">
+  <div *ngFor="let prop of propParent; let i = index" style="margin-left: 10px">
 
     <label *ngIf="prop.typeOptions && prop.typeOptions.length">
       <select (change)="changeControlType($event.target.value, i, prop.key)" [value]="prop.type">

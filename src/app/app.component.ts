@@ -59,6 +59,36 @@ export class AppComponent {
     }
   };
 
+  result = {
+    'api': {
+      'port': '',
+      'users': [],
+      'testArray': 'rggg',
+      'secret': 'ssssh',
+      'token_expiration_time': '',
+      'log_display_level': '',
+      'history': {
+        'test': '',
+        'test2': 'feeeee',
+        'test3': [
+          'fee',
+          'ggr',
+          'htttt'
+        ],
+        'testarray': [],
+        'testObject': 'grgr',
+        'mongodb': {
+          'host': '',
+          'port': '5555',
+          'database': '',
+          'test4': [
+            'hrth',
+            'fffff'
+          ]
+        }
+      }
+    }
+  };
 
   constructor(private fb: FormBuilder) {
     this.createForm();
@@ -70,6 +100,11 @@ export class AppComponent {
       api: CustomFormObjectComponent.buildForm(this.configProp)
     });
 
+    CustomFormObjectComponent.patchForm(
+      this.configForm.controls.api as FormGroup,
+      this.result.api,
+      this.configProp.props
+    );
   }
 
 

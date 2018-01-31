@@ -29,19 +29,23 @@ export class CustomFormArrayComponent implements OnInit {
     return _item;
   }
 
+  static addControl(controlName, prop, formParent, value?) {
+    prop.items.push(CustomFormControlComponent.buildProp(prop.items.length, {}));
+    const arrayControl = formParent.get(controlName) as FormArray;
+    arrayControl.push(CustomFormControlComponent.buildForm(value));
+  }
+
   ngOnInit() {
   }
 
   addControl(controlName) {
-    this.prop.items.push(CustomFormControlComponent.buildProp(this.prop.items.length, {}));
-    const arrayControl = this.formParent.get(controlName) as FormArray;
-    arrayControl.push(CustomFormControlComponent.buildForm());
+    CustomFormArrayComponent.addControl(controlName, this.prop, this.formParent);
   }
 
   deleteControl(controlName, index) {
-    this.prop.items.pop();
     const arrayControl = this.formParent.get(controlName) as FormArray;
     arrayControl.removeAt(index);
+    this.prop.items.pop();
   }
 
 }

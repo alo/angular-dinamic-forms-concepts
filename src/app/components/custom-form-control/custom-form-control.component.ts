@@ -13,8 +13,8 @@ export class CustomFormControlComponent implements OnInit {
 
   constructor() { }
 
-  static buildForm() {
-    return new FormControl('');
+  static buildForm(value?) {
+    return new FormControl(value ? value : '');
   }
 
   static buildProp(key: string, item: any) {
