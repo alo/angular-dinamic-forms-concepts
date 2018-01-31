@@ -13,78 +13,103 @@ export class AppComponent {
   configForm: FormGroup;
   configProp: any;
 
-  api = {
-    'required': ['port'],
+  config = {
+    'type': 'object',
+    'required': ['general'],
     'properties': {
-      'port': { 'type': ['string', 'number'] },
-      'users': { 'type': 'array' },
-      'testArray': { 'type': ['string', 'array'] },
-      'secret': { 'type': 'string' },
-      // 'limite_req': { 'type': 'string' },
-      'token_expiration_time': { 'type': 'number' },
-      'log_display_level': {
-        'type': 'string',
-        // 'pattern': '(combined|common|dev|short|tiny)'
-      },
-      'history': {
+      'general': {
         'type': 'object',
         'properties': {
-          'disable': {'type': 'boolean'},
-          'test': {'type': 'string'},
-          'test2': {'type': 'string'},
-          'test3': { 'type': 'array' },
-          'testarray': { 'type': ['array', 'string'] },
-          'testObject': {
-            'type': ['string', 'object'],
-            'properties': {
-              'test': {'type': 'string'},
-              'test2': {'type': 'string'},
-              'test3': { 'type': 'array' }
-            }
-          },
-          'mongodb': {
+          'binBackup': {'type': 'string'},
+          'planFilePath': {'type': 'string'},
+          'refreshIntervalBinBackup': {'type': 'number'},
+          'modulesPath': {'type': 'string'},
+          'api': {
             'type': 'object',
-            'required': ['host', 'database'],
+            'required': ['port'],
             'properties': {
-              'host': {'type': 'string'},
-              'port': {'type': 'number'},
-              'database': {'type': 'string'},
-              'test4': { 'type': 'array' }
+              'port': { 'type': ['string', 'number'] },
+              'users': { 'type': 'array' },
+              'testArray': { 'type': ['string', 'array'] },
+              'secret': { 'type': 'string' },
+              // 'limite_req': { 'type': 'string' },
+              'token_expiration_time': { 'type': 'number' },
+              'log_display_level': {
+                'type': 'string',
+                // 'pattern': '(combined|common|dev|short|tiny)'
+              },
+              'history': {
+                'type': 'object',
+                'properties': {
+                  'disable': {'type': 'boolean'},
+                  'test': {'type': 'string'},
+                  'test2': {'type': 'string'},
+                  'test3': { 'type': 'array' },
+                  'testarray': { 'type': ['array', 'string'] },
+                  'testObject': {
+                    'type': ['string', 'object'],
+                    'properties': {
+                      'test': {'type': 'string'},
+                      'test2': {'type': 'string'},
+                      'test3': { 'type': 'array' }
+                    }
+                  },
+                  'mongodb': {
+                    'type': 'object',
+                    'required': ['host', 'database'],
+                    'properties': {
+                      'host': {'type': 'string'},
+                      'port': {'type': 'number'},
+                      'database': {'type': 'string'},
+                      'test4': { 'type': 'array' }
+                    }
+                  }
+                }
+              }
+              // 'chainsFieldsResponse': { 'type': 'array' },
+              // 'processFieldsResponse': { 'type': 'array' }
             }
           }
         }
       }
-      // 'chainsFieldsResponse': { 'type': 'array' },
-      // 'processFieldsResponse': { 'type': 'array' }
     }
   };
 
   result = {
-    'api': {
-      'port': '',
-      'users': [],
-      'testArray': 'rggg',
-      'secret': 'ssssh',
-      'token_expiration_time': '',
-      'log_display_level': '',
-      'history': {
-        'test': '',
-        'test2': 'feeeee',
-        'test3': [
-          'fee',
-          'ggr',
-          'htttt'
+    'general': {
+      'binBackup': 'bin test',
+      'planFilePath': 'path/test',
+      'refreshIntervalBinBackup': '',
+      'modulesPath': 'path/test/modules',
+      'api': {
+        'port': '8888',
+        'users': [
+          'kbsa',
+          'misha'
         ],
-        'testarray': [],
-        'testObject': 'grgr',
-        'mongodb': {
-          'host': '',
-          'port': '5555',
-          'database': '',
-          'test4': [
-            'hrth',
-            'fffff'
-          ]
+        'testArray': '',
+        'secret': 'shhhh',
+        'token_expiration_time': '',
+        'log_display_level': '',
+        'history': {
+          'test': '',
+          'test2': 'testaso',
+          'test3': [
+            'ou',
+            'yeah',
+            'niggi'
+          ],
+          'testarray': [
+            'wtf',
+            'omg'
+          ],
+          'testObject': '',
+          'mongodb': {
+            'host': 'mongodb',
+            'port': '3600',
+            'database': '',
+            'test4': []
+          }
         }
       }
     }
@@ -95,14 +120,12 @@ export class AppComponent {
   }
 
   createForm() {
-    this.configProp = CustomFormObjectComponent.buildProp('api', this.api);
-    this.configForm = this.fb.group({
-      api: CustomFormObjectComponent.buildForm(this.configProp)
-    });
+    this.configProp = CustomFormObjectComponent.buildProp('config', this.config);
+    this.configForm = CustomFormObjectComponent.buildForm(this.configProp);
 
     CustomFormObjectComponent.patchForm(
-      this.configForm.controls.api as FormGroup,
-      this.result.api,
+      this.configForm,
+      this.result,
       this.configProp.props
     );
   }
