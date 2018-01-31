@@ -22,6 +22,8 @@ export class CustomFormControlComponent implements OnInit {
     let _inputType = 'text';
     if (item.type === 'number') {
       _inputType = 'number';
+    } else if (item.type === 'boolean') {
+      _inputType = 'checkbox';
     }
 
     Object.assign(_item, item);

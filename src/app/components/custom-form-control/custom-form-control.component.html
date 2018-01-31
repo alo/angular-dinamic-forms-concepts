@@ -1,4 +1,6 @@
 <ng-container [formGroup]="formParent">
-  <label>{{ prop.key }}:</label>
-  <input [type]="prop.inputType" [formControlName]="prop.key">
+  <label [ngSwitch]="prop.inputType">{{ prop.key }}:
+    <input *ngSwitchCase="'checkbox'" type="checkbox" [formControlName]="prop.key">
+    <input *ngSwitchDefault [type]="prop.inputType" [formControlName]="prop.key">
+  </label>
 </ng-container>

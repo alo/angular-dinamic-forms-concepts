@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms/src/model';
 import { CustomFormObjectComponent } from './components/custom-form-object/custom-form-object.component';
 
@@ -42,6 +42,7 @@ export class AppComponent {
                 'type': 'object',
                 'properties': {
                   'disable': {'type': 'boolean'},
+                  'testBoolean': {'type': 'boolean'},
                   'test': {'type': 'string'},
                   'test2': {'type': 'string'},
                   'test3': { 'type': 'array' },
@@ -92,6 +93,8 @@ export class AppComponent {
         'token_expiration_time': '',
         'log_display_level': '',
         'history': {
+          'disable': false,
+          'testBoolean': true,
           'test': '',
           'test2': 'testaso',
           'test3': [
@@ -115,7 +118,7 @@ export class AppComponent {
     }
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.createForm();
   }
 

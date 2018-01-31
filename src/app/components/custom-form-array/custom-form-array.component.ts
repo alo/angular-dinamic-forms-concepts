@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { CustomFormControlComponent } from '../custom-form-control/custom-form-control.component';
 
 @Component({
@@ -12,9 +12,7 @@ export class CustomFormArrayComponent implements OnInit {
   @Input() formParent: FormGroup;
   @Input() prop: any;
 
-  constructor(
-    private fb: FormBuilder
-  ) { }
+  constructor() { }
 
   static buildForm() {
     return new FormArray([]);
