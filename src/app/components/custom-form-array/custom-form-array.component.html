@@ -3,7 +3,7 @@
     {{ prop.key }}:
     <button (click)="addControl(prop.key)" type="button">Add {{ prop.key }}</button>
   </label>
-  <div [formArrayName]="prop.key" class="well well-lg">
+  <div [formArrayName]="prop.key" class="well well-lg" style="margin-left: 10px">
     <div *ngFor="let control of formParent.controls[prop.key].controls; let i=index">
       <app-custom-form-control
         [formParent]="formParent.controls[prop.key]"
