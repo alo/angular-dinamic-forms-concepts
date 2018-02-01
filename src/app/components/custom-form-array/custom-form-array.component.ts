@@ -33,6 +33,14 @@ export class CustomFormArrayComponent implements OnInit {
     arrayControl.push(CustomFormControlComponent.buildForm(value));
   }
 
+  static isArrayType(value) {
+    if (Array.isArray(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ngOnInit() {
   }
 

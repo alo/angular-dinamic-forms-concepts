@@ -8,10 +8,13 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class CustomFormControlComponent implements OnInit {
 
+  static controlTypes = ['string', 'number', 'boolean'];
+
   @Input() formParent: FormGroup;
   @Input() prop: any;
 
   constructor() { }
+
 
   static buildForm(value?) {
     return new FormControl(value ? value : '');
@@ -30,6 +33,38 @@ export class CustomFormControlComponent implements OnInit {
     _item.key = key;
     _item.inputType = _inputType;
     return _item;
+  }
+
+  static isControlType(value, type?): boolean {
+    switch (type) {
+      case 'string':
+        if (typeof(value) === 'string') {
+          return true;
+        } else {
+          return false;
+        }
+      case 'number':
+        if (!isNaN(parseFloat(value))) {
+          return true;
+        } else {
+          return false;
+        }
+      case 'boolean':
+        if (value === true || value === false) {
+          return true;
+        } else {
+          return false;
+        }
+      default:
+        if (
+          typeof(value) !== 'object'
+          && !Array.isArray(value)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+    }
   }
 
   ngOnInit() {
