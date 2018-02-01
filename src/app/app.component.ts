@@ -17,6 +17,8 @@ export class AppComponent {
     'type': 'object',
     'required': ['general'],
     'properties': {
+      'testasoString': {'type': 'string'},
+      'testasoArray': {'type': 'array'},
       'general': {
         'type': 'object',
         'properties': {
@@ -31,7 +33,7 @@ export class AppComponent {
               'port': { 'type': ['string', 'number'] },
               'users': { 'type': 'array' },
               'testArray': { 'type': ['string', 'array'] },
-              'secret': { 'type': 'string' },
+              'secret': { 'type': ['array', 'string'] },
               // 'limite_req': { 'type': 'string' },
               'token_expiration_time': { 'type': 'number' },
               'log_display_level': {
@@ -77,6 +79,11 @@ export class AppComponent {
   };
 
   result = {
+    'testasoString': 'it works!',
+    'testasoArray': [
+      'wow',
+      'lol'
+    ],
     'general': {
       'binBackup': 'bin test',
       'planFilePath': 'path/test',
@@ -88,7 +95,10 @@ export class AppComponent {
           'kbsa',
           'misha'
         ],
-        'testArray': '',
+        'testArray': [
+          'cambiate',
+          'puto'
+        ],
         'secret': 'shhhh',
         'token_expiration_time': '',
         'log_display_level': '',
@@ -106,7 +116,11 @@ export class AppComponent {
             'wtf',
             'omg'
           ],
-          'testObject': '',
+          'testObject': {
+            'test': 'hola',
+            'test2': 'hello',
+            'test3': []
+          },
           'mongodb': {
             'host': 'mongodb',
             'port': '3600',

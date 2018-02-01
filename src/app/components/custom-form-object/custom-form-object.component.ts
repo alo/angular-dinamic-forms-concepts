@@ -53,7 +53,7 @@ export class CustomFormObjectComponent implements OnInit {
   }
 
   static buildPropertieProp(key: string, propertie: any) {
-    if (propertie.type === 'string' || propertie.type === 'number' || propertie.type === 'boolean') {
+    if (CustomFormControlComponent.controlTypes.indexOf(propertie.type) >= 0) {
       return CustomFormControlComponent.buildProp(key, propertie);
     } else if (propertie.type === 'array') {
       return CustomFormArrayComponent.buildProp(key, propertie);
@@ -70,21 +70,44 @@ export class CustomFormObjectComponent implements OnInit {
   }
 
   static patchForm(form: FormGroup, value: any, prop: any) {
-    form.patchValue(value);
+    // form.patchValue(value);
     Object.keys(value).forEach(key => {
-      if (Array.isArray(value[key])) {
+      const _propIndex = CustomFormObjectComponent.getPropIndex(prop, key);
+      if (prop[_propIndex].typeOptions && prop[_propIndex].typeOptions.length) {
+        let typeMatched = false;
+        for (const type of prop[_propIndex].typeOptions) {
+          if (!typeMatched && type !== prop[_propIndex].type) {
+            if (type === 'array' && CustomFormArrayComponent.isArrayType(value[key])) {
+              CustomFormObjectComponent.changeControlType(type, _propIndex, key, prop, form);
+              typeMatched = true;
+            } else if (type === 'object' && CustomFormObjectComponent.isObjectType(value[key])) {
+              CustomFormObjectComponent.changeControlType(type, _propIndex, key, prop, form);
+              typeMatched = true;
+            } else if (
+              CustomFormControlComponent.controlTypes.indexOf(type) >= 0
+              && CustomFormControlComponent.isControlType(value[key], type)
+              && !CustomFormArrayComponent.isArrayType(value[key])
+              && !CustomFormObjectComponent.isObjectType(value[key])
+            ) {
+              CustomFormObjectComponent.changeControlType(type, _propIndex, key, prop, form);
+              typeMatched = true;
+            }
+          }
+        }
+      }
+      if (CustomFormArrayComponent.isArrayType(value[key])) {
         for (const val of value[key]) {
-          CustomFormArrayComponent.addControl(key, prop[CustomFormObjectComponent.getPropIndex(prop, key)], form, val);
+          CustomFormArrayComponent.addControl(key, prop[_propIndex], form, val);
         }
         form.controls[key].patchValue(value[key]);
-      } else if (value[key] !== null && typeof value[key] === 'object') {
+      } else if (CustomFormObjectComponent.isObjectType(value[key])) {
         CustomFormObjectComponent.patchForm(
           form.controls[key] as FormGroup,
           value[key],
-          prop[CustomFormObjectComponent.getPropIndex(prop, key)].props
+          prop[_propIndex].props
         );
       } else {
-        // form.controls[key].patchValue(value[key]);
+        form.controls[key].patchValue(value[key]);
       }
     });
   }
@@ -97,15 +120,27 @@ export class CustomFormObjectComponent implements OnInit {
     }
   }
 
+  static changeControlType(value, index, key, propParent, formParent) {
+    const _prop = Object.assign({}, propParent[index]);
+    _prop.type = value;
+    formParent.removeControl(key);
+    propParent[index] = CustomFormObjectComponent.buildPropertieProp(key, _prop);
+    formParent.addControl(key, CustomFormObjectComponent.buildPropertieForm(key, _prop));
+  }
+
+  static isObjectType(value) {
+    if (value !== null && typeof value === 'object') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ngOnInit() {
   }
 
   changeControlType(value, index, key) {
-    const _prop = Object.assign({}, this.propParent[index]);
-    _prop.type = value;
-    this.formParent.removeControl(key);
-    this.propParent[index] = CustomFormObjectComponent.buildPropertieProp(key, _prop);
-    this.formParent.addControl(key, CustomFormObjectComponent.buildPropertieForm(key, _prop));
+    CustomFormObjectComponent.changeControlType(value, index, key, this.propParent, this.formParent);
   }
 
 }
