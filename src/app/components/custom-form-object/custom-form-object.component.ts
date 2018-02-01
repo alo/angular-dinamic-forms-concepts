@@ -32,6 +32,9 @@ export class CustomFormObjectComponent implements OnInit {
   static buildProp(key: string, propParent: any) {
     const props = [];
     propParent.key = key;
+    if (propParent.anyOf) {
+      Object.assign(propParent, CustomFormObjectComponent.matchAnyOf(propParent.anyOf, propParent._anyOfIndex));
+    }
     Object.keys(propParent.properties).forEach( keyIndex => {
       const _propertieProp = CustomFormObjectComponent.buildPropertieProp(keyIndex, propParent.properties[keyIndex]);
       props.push(_propertieProp);
@@ -95,6 +98,23 @@ export class CustomFormObjectComponent implements OnInit {
           }
         }
       }
+      if (prop[_propIndex].anyOf && CustomFormObjectComponent.isObjectType(value[key])) {
+        const _possiblesAnyOf = {};
+        for (let i = 0; i < prop[_propIndex].anyOf.length; i++) {
+          _possiblesAnyOf[i] = prop[_propIndex].anyOf[i];
+        }
+        let _anyOfIndex = null;
+        Object.keys(value[key]).forEach(valueKey => {
+          Object.keys(_possiblesAnyOf).forEach(index => {
+            if (!_possiblesAnyOf[index].properties[valueKey]) {
+              delete _possiblesAnyOf[index];
+            } else {
+              _anyOfIndex = index;
+            }
+          });
+        });
+        CustomFormObjectComponent.changeAnyOf(_anyOfIndex, prop[_propIndex], form.controls[key]);
+      }
       if (CustomFormArrayComponent.isArrayType(value[key])) {
         for (const val of value[key]) {
           CustomFormArrayComponent.addControl(key, prop[_propIndex], form, val);
@@ -136,11 +156,32 @@ export class CustomFormObjectComponent implements OnInit {
     }
   }
 
+  static matchAnyOf(options, index?) {
+    return options[index ? index : 0];
+  }
+
+  static changeAnyOf(index, propParent, formParent) {
+    propParent._anyOfIndex = index;
+    CustomFormObjectComponent.buildProp(propParent.key, propParent);
+
+    const _form = CustomFormObjectComponent.buildForm(propParent);
+    Object.keys(formParent.controls).forEach(key => {
+      formParent.removeControl(key);
+    });
+    Object.keys(_form.controls).forEach(key => {
+      formParent.addControl(key, CustomFormObjectComponent.buildPropertieForm(key, propParent.properties[key]));
+    });
+  }
+
   ngOnInit() {
   }
 
   changeControlType(value, index, key) {
-    CustomFormObjectComponent.changeControlType(value, index, key, this.propParent, this.formParent);
+    CustomFormObjectComponent.changeControlType(value, index, key, this.propParent.props, this.formParent);
+  }
+
+  changeAnyOf(index) {
+    CustomFormObjectComponent.changeAnyOf(index, this.propParent, this.formParent);
   }
 
 }
