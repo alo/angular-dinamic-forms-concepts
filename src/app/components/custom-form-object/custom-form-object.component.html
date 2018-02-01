@@ -1,6 +1,12 @@
 <strong>{{ groupName }}:</strong>
 <ng-container [formGroup]="formParent">
-  <div *ngFor="let prop of propParent; let i = index" style="margin-left: 10px">
+  <label *ngIf="propParent.anyOf">
+    <select (change)="changeAnyOf($event.target.value)" [value]="propParent._anyOfIndex">
+      <option *ngFor="let opt of propParent.anyOf; let i = index" [value]="i">Option {{i + 1}}</option>
+    </select>
+  </label>
+
+  <div *ngFor="let prop of propParent.props; let i = index" style="margin-left: 10px">
 
     <label *ngIf="prop.typeOptions && prop.typeOptions.length">
       <select (change)="changeControlType($event.target.value, i, prop.key)" [value]="prop.type">
@@ -20,7 +26,7 @@
 
     <app-custom-form-object *ngIf="prop.type === 'object'"
       [formParent]="formParent.controls[prop.key]"
-      [propParent]="prop.props"
+      [propParent]="prop"
       [groupName]="prop.key">
     </app-custom-form-object>
 

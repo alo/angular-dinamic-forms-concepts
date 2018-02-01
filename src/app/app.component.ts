@@ -28,49 +28,88 @@ export class AppComponent {
           'modulesPath': {'type': 'string'},
           'api': {
             'type': 'object',
-            'required': ['port'],
-            'properties': {
-              'port': { 'type': ['string', 'number'] },
-              'users': { 'type': 'array' },
-              'testArray': { 'type': ['string', 'array'] },
-              'secret': { 'type': ['array', 'string'] },
-              // 'limite_req': { 'type': 'string' },
-              'token_expiration_time': { 'type': 'number' },
-              'log_display_level': {
-                'type': 'string',
-                // 'pattern': '(combined|common|dev|short|tiny)'
-              },
-              'history': {
-                'type': 'object',
+            'anyOf': [
+              {
+                'required': ['unix_socket'],
                 'properties': {
-                  'disable': {'type': 'boolean'},
-                  'testBoolean': {'type': 'boolean'},
-                  'test': {'type': 'string'},
-                  'test2': {'type': 'string'},
-                  'test3': { 'type': 'array' },
-                  'testarray': { 'type': ['array', 'string'] },
-                  'testObject': {
-                    'type': ['string', 'object'],
-                    'properties': {
-                      'test': {'type': 'string'},
-                      'test2': {'type': 'string'},
-                      'test3': { 'type': 'array' }
-                    }
+                  'unix_socket': {'type': 'string'},
+                  'users': {'type': 'array'},
+                  'secret': {'type': 'string'},
+                  'limite_req': {'type': 'string'},
+                  'token_expiration_time': {'type': 'number'},
+                  'log_display_level': {
+                    'type': 'string',
+                    'pattern': '(combined|common|dev|short|tiny)'
                   },
-                  'mongodb': {
-                    'type': 'object',
-                    'required': ['host', 'database'],
-                    'properties': {
-                      'host': {'type': 'string'},
-                      'port': {'type': 'number'},
-                      'database': {'type': 'string'},
-                      'test4': { 'type': 'array' }
-                    }
+                  'chainsFieldsResponse': {'type': 'array'},
+                  'processFieldsResponse': {'type': 'array'}
+                }
+              },
+              {
+                'required': ['port'],
+                'properties': {
+                  'port': { 'type': ['string', 'number'] },
+                  'users': { 'type': 'array' },
+                  'testArray': { 'type': ['string', 'array'] },
+                  'secret': { 'type': ['array', 'string'] },
+                  // 'limite_req': { 'type': 'string' },
+                  'token_expiration_time': { 'type': 'number' },
+                  'log_display_level': {
+                    'type': 'string',
+                    // 'pattern': '(combined|common|dev|short|tiny)'
                   }
+                  // 'chainsFieldsResponse': { 'type': 'array' },
+                  // 'processFieldsResponse': { 'type': 'array' }
+                }
+              },
+              {
+                'required': ['port', 'ssl'],
+                'properties': {
+                  'port': {'type': ['string']},
+                  'ssl': {'type': 'boolean'},
+                  'key': {'type': 'string'},
+                  'cert': {'type': 'string'},
+                  'users': {'type': 'array'},
+                  'secret': {'type': 'string'},
+                  'limite_req': {'type': 'string'},
+                  'token_expiration_time': {'type': 'number'},
+                  'log_display_level': {
+                    'type': 'string',
+                    'pattern': '(combined|common|dev|short|tiny)'
+                  },
+                  'chainsFieldsResponse': {'type': 'array'},
+                  'processFieldsResponse': {'type': 'array'}
                 }
               }
-              // 'chainsFieldsResponse': { 'type': 'array' },
-              // 'processFieldsResponse': { 'type': 'array' }
+            ]
+          },
+          'history': {
+            'type': 'object',
+            'properties': {
+              'disable': {'type': 'boolean'},
+              'testBoolean': {'type': 'boolean'},
+              'test': {'type': 'string'},
+              'test2': {'type': 'string'},
+              'test3': { 'type': 'array' },
+              'testarray': { 'type': ['array', 'string'] },
+              'testObject': {
+                'type': ['string', 'object'],
+                'properties': {
+                  'test': {'type': 'string'},
+                  'test2': {'type': 'string'},
+                  'test3': { 'type': 'array' }
+                }
+              },
+              'mongodb': {
+                'type': 'object',
+                'required': ['host', 'database'],
+                'properties': {
+                  'host': {'type': 'string'},
+                  'port': {'type': 'number'},
+                  'database': {'type': 'string'},
+                  'test4': { 'type': 'array' }
+                }
+              }
             }
           }
         }
@@ -101,32 +140,32 @@ export class AppComponent {
         ],
         'secret': 'shhhh',
         'token_expiration_time': '',
-        'log_display_level': '',
-        'history': {
-          'disable': false,
-          'testBoolean': true,
-          'test': '',
-          'test2': 'testaso',
-          'test3': [
-            'ou',
-            'yeah',
-            'niggi'
-          ],
-          'testarray': [
-            'wtf',
-            'omg'
-          ],
-          'testObject': {
-            'test': 'hola',
-            'test2': 'hello',
-            'test3': []
-          },
-          'mongodb': {
-            'host': 'mongodb',
-            'port': '3600',
-            'database': '',
-            'test4': []
-          }
+        'log_display_level': ''
+      },
+      'history': {
+        'disable': false,
+        'testBoolean': true,
+        'test': '',
+        'test2': 'testaso',
+        'test3': [
+          'ou',
+          'yeah',
+          'niggi'
+        ],
+        'testarray': [
+          'wtf',
+          'omg'
+        ],
+        'testObject': {
+          'test': 'hola',
+          'test2': 'hello',
+          'test3': []
+        },
+        'mongodb': {
+          'host': 'mongodb',
+          'port': '3600',
+          'database': '',
+          'test4': []
         }
       }
     }
